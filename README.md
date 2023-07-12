@@ -13,6 +13,8 @@ Caution: don't use `pnpm` or `yarn`, use `npm`
 
 That's all
 
+NOT ALL
+
 В этом репозитории находится пример приложения с тестами:
 
 - [e2e тесты](e2e/example.spec.ts)
