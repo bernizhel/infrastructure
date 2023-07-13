@@ -16,4 +16,4 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ toJSON(github.action_*)}}
+      - run: echo ${{ toJSON(github.action_*) }}
