@@ -10,6 +10,8 @@ jobs:
       run:
         shell: bash
         working-directory: .
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v3
         with:

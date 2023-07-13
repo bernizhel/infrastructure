@@ -10,6 +10,8 @@ jobs:
       run:
         shell: bash
         working-directory: .
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v3
         with:
@@ -26,5 +28,7 @@ jobs:
           cache-dependency-path: 'package-lock.json'
       - name: Install dependencies
         run: npm ci
+      - name: Playwright installation
+        run: npx playwright install --with-deps
       - name: Run `e2e` npm script
-        run: npm run e2e
+        run: npm run e2e:ci
