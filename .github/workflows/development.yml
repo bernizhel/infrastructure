@@ -16,4 +16,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo {{ steps.* }}
+      - run: echo $STEPS
+        env:
+          STEPS: ${{ steps.* }}
