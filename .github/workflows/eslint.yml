@@ -1,6 +1,6 @@
 name: ESLint
 
-on: [push, pull_request, workflow_call]
+on: [workflow_call]
 
 jobs:
   eslint:
