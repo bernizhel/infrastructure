@@ -1,6 +1,9 @@
 name: Development
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+  pull_request:
 
 jobs:
   conventional_commits:
@@ -12,4 +15,5 @@ jobs:
   unit-tests:
     uses: ./.github/workflows/unit-tests.yml
   integration-tests:
+    if: github.event.review.state == 'approved'
     uses: ./.github/workflows/integration-tests.yml
