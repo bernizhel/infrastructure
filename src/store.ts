@@ -11,10 +11,10 @@ const items = ["Позавтракать", "Сходить в магазин", "
 const DEFAULT_STATE = { items, done: {}, text: "" };
 
 // actions
-export const addItem = (text: string) => ({ type: "ADD_ITEM", text } as const);
-export const setText = (text: string) => ({ type: "SET_TEXT", text } as const);
+export const addItem = (text: string) => ({ type: "ADD_ITEM", text }) as const;
+export const setText = (text: string) => ({ type: "SET_TEXT", text }) as const;
 export const setDone = (index: number, done: boolean) =>
-  ({ type: "SET_DONE", index, done } as const);
+  ({ type: "SET_DONE", index, done }) as const;
 
 export type Action =
   | ReturnType<typeof addItem>
