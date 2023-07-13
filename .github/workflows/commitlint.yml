@@ -20,6 +20,8 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
+      - name: Install dependencies
+        run: npm ci
       - name: Install commitlint
         run: |
           npm install conventional-changelog-conventionalcommits
