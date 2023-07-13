@@ -1,0 +1,27 @@
+name: Set up workflow machine
+
+on: [workflow_call]
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install system dependencies
+        # sudo apt-get install -y git
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade
+      - name: Install correct Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
