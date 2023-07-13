@@ -18,4 +18,4 @@ jobs:
     steps:
       - run: echo $STEPS
         env:
-          STEPS: ${{ steps.* }}
+          STEPS: ${{ toJSON(steps.*) }}
