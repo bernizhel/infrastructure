@@ -1,6 +1,6 @@
 name: Integration tests
 
-on: [pull_request, workflow_call, workflow_dispatch]
+on: [workflow_call]
 
 jobs:
   unit-test:
