@@ -31,9 +31,7 @@ jobs:
           sudo apt update
           sudo apt-get install xvfb -y
       - name: Run e2e tests
-        run: xvfb-run npx playwright test
-      # - name: Run `e2e:ci` npm script
-        # run: npm run e2e:ci
+        run: xvfb-run npm run e2e:ci
       - if: always()
         name: Upload the artifacts
         uses: actions/upload-artifact@v3
