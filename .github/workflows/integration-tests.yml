@@ -25,10 +25,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Playwright installation
-        run: npx playwright install --with-deps
+        run: npx playwright install chromium
       - name: Download X11 display server library 
         run: |
-          sudo apt update
+          sudo apt-get update
           sudo apt-get install xvfb -y
       - name: Run e2e tests
         run: xvfb-run npm run e2e:ci
