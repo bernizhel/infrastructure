@@ -11,12 +11,6 @@ Caution: don't use `pnpm` or `yarn`, use `npm`
 - `git add .`
 - `git commit -m "your commit message"`
 
-That's all
-
-NOT ALL
-
-third commit
-
 В этом репозитории находится пример приложения с тестами:
 
 - [e2e тесты](e2e/example.spec.ts)
