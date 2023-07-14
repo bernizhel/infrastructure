@@ -26,8 +26,14 @@ jobs:
         run: npm ci
       - name: Playwright installation
         run: npx playwright install --with-deps
-      - name: Run `e2e:ci` npm script
-        run: npm run e2e:ci
+      - name: Download X11 display server library 
+        run: |
+          sudo apt update
+          sudo apt-get install xvfb -y
+      - name: Run e2e tests
+        run: xvfb-run npx playwright test
+      # - name: Run `e2e:ci` npm script
+        # run: npm run e2e:ci
       - if: always()
         name: Upload the artifacts
         uses: actions/upload-artifact@v3
