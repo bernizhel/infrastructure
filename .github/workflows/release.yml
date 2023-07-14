@@ -35,7 +35,6 @@ jobs:
           AUTHOR: ${{ github.actor }}
         with:
           filename: ./.github/ISSUE_TEMPLATE.md
-          assignees: ${{ github.actor }}
           update_existing: true
           search_existing: all
       - name: Install dependencies
