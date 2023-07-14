@@ -1,7 +1,5 @@
 ---
-title: "Release ${{ env.VERSION }}"
-labels: ["RELEASE"]
+title: "Release"
+labels: "RELEASE"
 assignees: bernizhel
 ---
-
-version: {{ env.VERSION }}
