@@ -58,7 +58,7 @@ jobs:
       - if: failure()
         name: Delete tag on failure
         run: |
-          curl -fsS \
+          curl -fv \
             -X DELETE \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
