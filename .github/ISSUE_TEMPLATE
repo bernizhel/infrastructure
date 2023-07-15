@@ -1,13 +1,11 @@
----
-title: "[{{ env.VERSION }}] Release"
-labels: RELEASE
-assignees: bernizhel
----
-
-## Release Information
-
-- **Version:** {{ env.VERSION }}
-- **Author:** {{ env.AUTHOR }}
-- **Date:** {{ env.DATE}}
-
-{{ env.CHANGELOG }}
+name: Release
+description: Release the app
+title: "[Release]: "
+labels: ["RELEASE"]
+assignees:
+  - bernizhel
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for creating the release!
