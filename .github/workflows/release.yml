@@ -21,26 +21,81 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
-      - name: Create an issue
-        id: create-an-issue
+
+      - name: Get information
+        id: tags
+        run: |
+          currentTag=${{ github.ref_name }}
+          previousTag=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | tail -2 | head -1)
+          echo "currentTag=${currentTag}" >> $GITHUB_OUTPUT
+          echo "previousTag=${previousTag}" >> $GITHUB_OUTPUT
+          echo "author=${{ github.actor }}" >> $GITHUB_OUTPUT
+          echo "date=$(date +'%d.%m.%Y %H:%M:%S')" >> $GITHUB_OUTPUT
+
+      - name: Build Changelog
+        id: build_changelog
+        uses: ardalanamini/auto-changelog@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          commit-types: |
+            fix: Bug Fixes
+            build: Build System & Dependencies
+            feat: New Features
+            ci: CI
+            docs: Documentation
+            test: Tests
+            perf: Performance Improvements
+            refactor: Refactors
+            chore: Chores
+            style: Code Style
+            revert: Reverts
+          default-commit-type: Other Changes
+          mention-authors: true
+          mention-new-contributors: true
+          include-compare-link: true
+          include-pr-links: true
+          include-commit-links: true
+          semver: false
+          use-github-autolink: true
+
+      - name: Create release issue
+        id: create_issue
         uses: JasonEtco/create-an-issue@v2
         env:
+          VERSION: ${{ steps.tags.outputs.currentTag}}
+          AUTHOR: ${{ steps.tags.outputs.author }}
+          DATE: ${{ steps.tags.outputs.date }}
+          CHANGELOG: ${{ steps.build_changelog.outputs.changelog }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ github.ref_name }}
-          AUTHOR: ${{ github.actor }}
         with:
-          filename: ./.github/ISSUE_TEMPLATE.md
+          filename: .github/ISSUE_TEMPLATE.md
           update_existing: true
           search_existing: all
+
+      # - name: Create an issue
+      #   id: create-an-issue
+      #   uses: JasonEtco/create-an-issue@v2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     VERSION: ${{ github.ref_name }}
+      #     AUTHOR: ${{ github.actor }}
+      #   with:
+      #     filename: ./.github/ISSUE_TEMPLATE.md
+      #     update_existing: true
+      #     search_existing: all
+
       - name: Install dependencies
         run: npm ci
+
       - name: Build project
         run: npm run build
+
       - if: success()
         name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -48,6 +103,7 @@ jobs:
           name: build-project
           path: ./build
           retention-days: 14
+
       - if: success()
         name: Deploy with gh-pages
         run: |
