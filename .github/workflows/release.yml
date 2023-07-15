@@ -124,7 +124,7 @@ jobs:
       - name: Add deploy link
         uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: ${{ needs.release.outputs.number }}
+          issue-number: ${{ needs.release.outputs.issue-number }}
           body: |
             - Deploy #${{ github.run_id }} is available at ${{ env.BASE_URL }}
         env:
