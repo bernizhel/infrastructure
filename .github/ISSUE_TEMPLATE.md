@@ -2,7 +2,12 @@
 title: "[{{ env.VERSION }}] Release"
 labels: RELEASE
 assignees: { { env.AUTHOR } }
-date: { { env.DATE } }
 ---
+
+## Release Information
+
+- **Date**: { { env.DATE } }
+
+## Changelog
 
 {{env.CHANGELOG}}
