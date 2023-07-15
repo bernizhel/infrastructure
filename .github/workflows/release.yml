@@ -63,12 +63,12 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            -d "{ sha: ${{ github.sha }}, force: true }"
+            -d '{ sha: "${{ github.sha }}", force: true }'
             "https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${{ github.ref_name }}"
 
       - if: success()
         name: Create release issue or update existing one
-        # id: create-issue
+        id: create-issue
         uses: JasonEtco/create-an-issue@v2
         env:
           VERSION: ${{ github.ref_name }}
@@ -80,6 +80,15 @@ jobs:
           filename: ./.github/ISSUE_TEMPLATE.md
           update_existing: true
           search_existing: open
+
+      - name: Add test results link
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ steps.create-issue.outputs.number }}
+          body: |
+            - Tests results #${{ github.run_id }} are available at ${{github.server_url}}/${{ github.repository }}/actions/runs/${{github.run_id}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     runs-on: ubuntu-latest
