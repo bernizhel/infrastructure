@@ -2,7 +2,8 @@ name: Release
 
 on:
   push:
-    tags: ['v[0-9.]+']
+    # idk how to create more strict tag regexp, the same in github settings
+    tags: ['v*']
   workflow_dispatch:
 
 jobs:
