@@ -55,8 +55,8 @@ jobs:
           release-name: ${{ github.ref_name }}
           semver: true
           
-      - if: fail()
-        name: Delete tag on fail
+      - if: failure()
+        name: Delete tag on failure
         run: |
           curl \
             -X DELETE \
