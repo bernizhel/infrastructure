@@ -58,10 +58,10 @@ jobs:
       - if: failure()
         name: Delete tag on failure
         run: |
-          curl \
+          curl -f \
             -X DELETE \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/git/refs/tags/$GITHUB_REF"
+            "https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${{ github.ref_name }}"
 
       - if: success()
         name: Create release issue or update existing one
