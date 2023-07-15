@@ -58,8 +58,7 @@ jobs:
       - if: failure()
         name: Delete tag on failure
         run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          git remote prune origin v1
+          git push --delete origin ${{ github.ref_name }}
 
       - if: success()
         name: Create release issue or update existing one
