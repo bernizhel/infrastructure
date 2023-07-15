@@ -43,11 +43,9 @@ jobs:
       - name: Output required data
         id: data-output
         run: |
-          currentTag=${{ github.ref_name }}
           previousTag=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | tail -2 | head -1)
-          echo "currentTag=${currentTag}" >> $GITHUB_OUTPUT
           echo "previousTag=${previousTag}" >> $GITHUB_OUTPUT
-          echo "date=$(date +"%A %d %B %Y %H:%M:%S %:z")>> $GITHUB_OUTPUT 
+          echo 'date=$(date +"%A %d %B %Y %H:%M:%S %:z")' >> $GITHUB_OUTPUT 
 
       - name: Create changelog
         id: create-changelog
@@ -57,11 +55,11 @@ jobs:
           release-name: ${{ github.ref_name }}
           semver: true
 
-      - name: Create release issue
+      - name: Create release issue or update existing one
         # id: create-issue
         uses: JasonEtco/create-an-issue@v2
         env:
-          VERSION: ${{ steps.data-output.outputs.currentTag}}
+          VERSION: ${{ github.ref_name }}
           DATE: ${{ steps.data-output.outputs.date }}
           CHANGELOG: ${{ steps.create-changelog.outputs.changelog }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -87,6 +85,8 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          BASE_URL: https://bernizhel.github.io/infrastructure/
 
       - if: success()
         name: Upload artifacts
