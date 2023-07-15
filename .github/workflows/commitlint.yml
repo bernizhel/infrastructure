@@ -1,6 +1,12 @@
 name: Commitlint
 
-on: [push, pull_request, workflow_call, workflow_dispatch]
+on:
+  push:
+    tags-ignore:
+      - "v*"
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
   commitlint:
