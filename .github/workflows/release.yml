@@ -55,10 +55,10 @@ jobs:
           release-name: ${{ github.ref_name }}
           semver: true
           
-      - if: failure()
-        name: Delete tag on failure
-        run: |
-          git push --delete origin ${{ github.ref_name }}
+      # - if: failure()
+      #   name: Delete tag on failure
+      #   run: |
+      #     git push --delete origin ${{ github.ref_name }}
 
       - if: success()
         name: Create release issue or update existing one
@@ -83,11 +83,16 @@ jobs:
             - Tests results #${{ github.run_id }} are available at ${{github.server_url}}/${{ github.repository }}/actions/runs/${{github.run_id}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    outputs:
+      issue-number: ${{ steps.create-issue.outputs.number }}
 
   deploy:
     runs-on: ubuntu-latest
     name: Build and deploy
     needs: release
+    env:
+      BASE_URL: https://bernizhel.github.io/infrastructure/
     steps:
       - uses: actions/setup-node@v3
         with:
@@ -100,8 +105,6 @@ jobs:
 
       - name: Build project
         run: npm run build
-        env:
-          BASE_URL: https://bernizhel.github.io/infrastructure/
 
       - if: success()
         name: Upload artifacts
@@ -116,5 +119,14 @@ jobs:
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Add deploy link
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ needs.release.outputs.number }}
+          body: |
+            - Deploy #${{ github.run_id }} is available at ${{ env.BASE_URL }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
