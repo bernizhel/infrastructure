@@ -1,15 +1,29 @@
-# unit-demo-cra infrastructure
+# Infrastructure
 
 ## Contributing
 
-Caution: don't use `pnpm` or `yarn`, use `npm`
+### Prerequisites
+
+- Use `npm` as your package manager
+
+### Common workflow
 
 - `git clone https://github.com/bernizhel/infrastructure`
 - `cd infrastructure`
+- `git checkout -b "your branch name"`
 - `npm ci` or `npm install` (will run prepare npm script hook too)
-- work
+- Do some changes
 - `git add .`
-- `git commit -m "your commit message"`
+- `git commit -m "your commit message in conventional commits styles"`
+- `precommit` and `commit-msg` hooks are run
+- On failure, make correct changes
+- On success, `git push origin "your branch name"`
+- Runs CI checks
+- On github create a PR with your changes to the `master` branch
+- Wait for checks to pass
+- Merge your changes
+
+## Project description
 
 В этом репозитории находится пример приложения с тестами:
 
