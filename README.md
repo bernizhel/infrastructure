@@ -23,6 +23,13 @@
 - Wait for checks to pass
 - Merge your changes
 
+### Release workflow
+
+- Make the work in another branch as described in "Common workflow" till your merge the changes to `master`
+- Tag your last commit with `git tag v1.0.0` in SemVer
+- `git push --tags`
+- Merge the commit
+
 ## Project description
 
 В этом репозитории находится пример приложения с тестами:
