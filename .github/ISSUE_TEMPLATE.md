@@ -1,5 +1,15 @@
 ---
-title: "[{{ env.VERSION }}] Release"
+title: "Release {{ env.VERSION }}"
 labels: RELEASE
-assignees: bernizhel
+assignees: { { env.AUTHOR } }
 ---
+
+## Release info
+
+- Date: {{ env.DATE }}
+- Author: {{ env.AUTHOR }}
+- Version: {{ env.VERSION }}
+
+## Changelog
+
+{{ env.CHANGELOG }}

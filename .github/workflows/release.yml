@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    tags: ['v\d+']
+    tags: ['v\d+(\.\d+){0,2}']
   workflow_dispatch:
 
 jobs:
@@ -39,55 +39,36 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Get information
-        id: tags
+      - name: Output required data
+        id: data-output
         run: |
           currentTag=${{ github.ref_name }}
           previousTag=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | tail -2 | head -1)
           echo "currentTag=${currentTag}" >> $GITHUB_OUTPUT
           echo "previousTag=${previousTag}" >> $GITHUB_OUTPUT
-          echo "author=${{ github.actor }}" >> $GITHUB_OUTPUT
-          echo "date=$(date +'%d.%m.%Y %H:%M:%S')" >> $GITHUB_OUTPUT
+          echo "date=$(date +"%A %d %B %Y %H:%M:%S %:z")>> $GITHUB_OUTPUT 
 
-      - name: Build Changelog
-        id: build_changelog
+      - name: Create changelog
+        id: create-changelog
         uses: ardalanamini/auto-changelog@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          commit-types: |
-            fix: Bug Fixes
-            build: Build System & Dependencies
-            feat: New Features
-            ci: CI
-            docs: Documentation
-            test: Tests
-            perf: Performance Improvements
-            refactor: Refactors
-            chore: Chores
-            style: Code Style
-            revert: Reverts
-          default-commit-type: Other Changes
-          mention-authors: true
-          mention-new-contributors: true
-          include-compare-link: true
-          include-pr-links: true
-          include-commit-links: true
-          semver: false
-          use-github-autolink: true
+          release-name: ${{ github.ref_name }}
+          semver: true
 
       - name: Create release issue
-        id: create_issue
+        # id: create-issue
         uses: JasonEtco/create-an-issue@v2
         env:
-          VERSION: ${{ steps.tags.outputs.currentTag}}
-          AUTHOR: ${{ steps.tags.outputs.author }}
-          DATE: ${{ steps.tags.outputs.date }}
-          CHANGELOG: ${{ steps.build_changelog.outputs.changelog }}
+          VERSION: ${{ steps.data-output.outputs.currentTag}}
+          DATE: ${{ steps.data-output.outputs.date }}
+          CHANGELOG: ${{ steps.create-changelog.outputs.changelog }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AUTHOR: ${{ github.actor }}
         with:
           filename: ./.github/ISSUE_TEMPLATE.md
           update_existing: true
-          search_existing: all
+          search_existing: open
 
   deploy:
     runs-on: ubuntu-latest
