@@ -3,6 +3,7 @@ name: Release
 on:
   push:
     # idk how to create more strict tag regexp, the same in github settings
+    branches: [master]
     tags: ['v*']
   workflow_dispatch:
 
