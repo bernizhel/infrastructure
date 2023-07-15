@@ -54,8 +54,17 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           release-name: ${{ github.ref_name }}
           semver: true
+          
+      - if: fail()
+        name: Delete tag on fail
+        run: |
+          curl \
+            -X DELETE \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/git/refs/tags/$GITHUB_REF"
 
-      - name: Create release issue or update existing one
+      - if: success()
+        name: Create release issue or update existing one
         # id: create-issue
         uses: JasonEtco/create-an-issue@v2
         env:
