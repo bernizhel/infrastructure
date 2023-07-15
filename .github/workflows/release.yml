@@ -45,7 +45,7 @@ jobs:
         run: |
           previousTag=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | tail -2 | head -1)
           echo "previousTag=${previousTag}" >> $GITHUB_OUTPUT
-          echo 'date=$(date +"%A %d %B %Y %H:%M:%S %:z")' >> $GITHUB_OUTPUT 
+          echo "date=$(date +'%A %d %B %Y %H:%M:%S %:z')" >> $GITHUB_OUTPUT 
 
       - name: Create changelog
         id: create-changelog
@@ -54,11 +54,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           release-name: ${{ github.ref_name }}
           semver: true
-          
-      # - if: failure()
-      #   name: Delete tag on failure
-      #   run: |
-      #     git push --delete origin ${{ github.ref_name }}
 
       - if: success()
         name: Create release issue or update existing one
@@ -94,6 +89,10 @@ jobs:
     env:
       BASE_URL: https://bernizhel.github.io/infrastructure/
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
@@ -130,3 +129,10 @@ jobs:
             - Deploy #${{ github.run_id }} is available at ${{ env.BASE_URL }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Close the issue
+        uses: peter-evans/close-issue@v3
+        with:
+          issue-number: ${{ needs.release.outputs.issue-number }}
+          comment: |
+            - All done. Closing the issue
