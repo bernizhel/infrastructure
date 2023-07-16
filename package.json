@@ -27,7 +27,7 @@
     "scripts": {
         "prepare": "husky install",
         "start": "react-scripts start",
-        "build": "PUBLIC_URL='https://bernizhel.github.io/infrastructure/' react-scripts build",
+        "build": "react-scripts build",
         "build:test": "PUBLIC_URL='/build/' react-scripts build",
         "eject": "react-scripts eject",
         "test": "react-scripts test",
