@@ -42,11 +42,18 @@ jobs:
       - name: Output required data
         id: data-output
         run: |
-          previousTag=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | tail -2 | head -1)
+          previousTag=$(git --no-pager tag --sort=creatordate --merged | tail -2 | head -1)
+          lastTag=$(git --no-pager tag --merged | tail -1)
           echo "previousTag=${previousTag}" >> $GITHUB_OUTPUT
+          echo "lastTag=${lastTag}" >> $GITHUB_OUTPUT
           echo "date=$(date +'%A %d %B %Y %H:%M:%S %:z')" >> $GITHUB_OUTPUT 
+      
+      - name: Check that our tag is the last one in timeline
+        run: |
+          test "${{ steps.data-output.outputs.previousTag }}" != "${{ steps.data-output.outputs.lastTag }}"
 
-      - name: Create changelog
+      - if: success()
+        name: Create changelog
         id: create-changelog
         uses: ardalanamini/auto-changelog@v4
         with:
@@ -108,7 +115,7 @@ jobs:
         name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build-project
+          name: built-project
           path: ./build
           retention-days: 14
 
