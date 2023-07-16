@@ -1,7 +1,6 @@
 {
     "name": "unit-demo-cra",
     "version": "1.0.0",
-    "homepage": "https://bernizhel.github.io/infrastructure/",
     "private": true,
     "dependencies": {
         "@testing-library/jest-dom": "^5.16.5",
@@ -28,7 +27,8 @@
     "scripts": {
         "prepare": "husky install",
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "PUBLIC_URL='https://bernizhel.github.io/infrastructure' react-scripts build",
+        "build:test": "PUBLIC_URL='/build' react-scripts build",
         "eject": "react-scripts eject",
         "test": "react-scripts test",
         "e2e": "playwright test --project=chromium && playwright show-report",
