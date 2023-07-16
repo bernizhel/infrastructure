@@ -5,6 +5,8 @@
 ### Prerequisites
 
 - Use `npm` as your package manager
+- `git clone https://github.com/bernizhel/infrastructure`
+- `npm ci`
 
 ### Common workflow
 
@@ -26,11 +28,13 @@
 ### Release workflow
 
 - Make the work in another branch as described in "Common workflow" till your merge the changes to `master`
-- Tag your last commit with `git tag v1.0.0` in SemVer
+- Tag your last commit with `git tag v1.0.0` in SemVer, note that your new tag must be greater than the previous one
 - `git push --tags`
 - Wait for the release CI workflow
 - Now you have your changes issued and deployed
+- The issue is closed automatically, a new release branch is created
 - Merge the PR
+- Push new changes to the release branch
 
 ### Specific workflows
 
