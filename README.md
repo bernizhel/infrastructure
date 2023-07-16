@@ -34,7 +34,7 @@
 - Now you have your changes issued and deployed
 - The issue is closed automatically, a new release branch is created
 - Merge the PR
-- Push new changes to the release branch
+- Push new changes to the release branch, to make the release workflow run again
 
 ### Specific workflows
 
