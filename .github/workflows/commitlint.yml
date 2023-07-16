@@ -2,7 +2,7 @@ name: Commitlint
 
 on:
   push:
-    branches: ['*'] 
+    branches: ['master'] 
     tags-ignore:
       - "v*"
   pull_request:
