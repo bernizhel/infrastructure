@@ -11,14 +11,14 @@ export const Application: FC = () => {
   return (
     <div>
       <nav>
-        <Link data-testid="link-home" to={`${process.env.PUBLIC_URL}/`}>
+        <Link data-testid="link-home" to="/">
           Home
         </Link>
-        <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link>
+        <Link to="/about">About</Link>
       </nav>
       <Routes>
-        <Route path={`${process.env.PUBLIC_URL}/about`} element={about} />
-        <Route path={`${process.env.PUBLIC_URL}/`} element={home} />
+        <Route path="/about" element={about} />
+        <Route path="/" element={home} />
       </Routes>
     </div>
   );
