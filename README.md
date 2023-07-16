@@ -39,7 +39,7 @@
 - **ESLint**: It is run on `precommit` hook and in the CI on pushes, PRs, and release workflow depends on it (required)
 - **Unit tests**: It is run on `precommit` hook and in the CI on pushes, PRs, and release workflow depends on it (required)
 - **Integration tests**: It is run in CI on PRs and release workflow depends on it (required)
-- **Release**: runs all the above checks, creates or updates an issue, adds comment on tests results, builds the app, deploys it with `gh-pages`, add the link comment to the issue, and finally closes the issue
+- **Release**: runs all the above checks, creates or updates an issue, adds comment on tests results, builds the app, deploys it with `gh-pages`, adds a comment with a link to the deployed app, and finally closes the issue
 
 ## Project description
 
