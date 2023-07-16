@@ -51,7 +51,7 @@ jobs:
       
       - name: Check that our tag is the last one in timeline
         run: |
-          test "${{ steps.data-output.outputs.previousTag }}" != "${{ steps.data-output.outputs.lastTag }}"
+          test "${{ steps.data-output.outputs.previousTag }}" -eq "${{ steps.data-output.outputs.lastTag }}" -o "$(git --no-pager tag --list | wc -l)" -eq "1"
 
       - if: success()
         name: Create changelog
@@ -62,7 +62,7 @@ jobs:
           release-name: ${{ github.ref_name }}
           semver: true
       
-      - if: contains(github.ref, 'tags')
+      - if: github.ref_type == 'tag'
         name: Create release branch if new tag is pushed
         uses: peterjgrainger/action-create-branch@v2.2.0
         env:
