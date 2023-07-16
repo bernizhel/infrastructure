@@ -35,6 +35,7 @@
 - The issue is closed automatically, a new release branch is created
 - Merge the PR
 - Push new changes to the release branch, to make the release workflow run again
+- Now you can push or cherry-pick new changes to the release branch and the `release.yml` workflow will run every time
 
 ### Specific workflows
 
