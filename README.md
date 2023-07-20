@@ -80,3 +80,5 @@ npm run e2e
 ```sh
 npm test
 ```
+---------
+Hi there. This is minor addition just for check sake.
