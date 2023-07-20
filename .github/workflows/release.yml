@@ -51,7 +51,7 @@ jobs:
       
       - name: Check that our tag is the last one in timeline
         run: |
-          test "${{ steps.data-output.outputs.previousTag }}" -eq "${{ steps.data-output.outputs.lastTag }}" -o "$(git --no-pager tag --list | wc -l)" -eq "1"
+          test "${{ steps.data-output.outputs.previousTag }}" = "${{ steps.data-output.outputs.lastTag }}" -o "$(git --no-pager tag --list | wc -l)" -eq "1"
 
       - if: success()
         name: Create changelog
